@@ -1,5 +1,5 @@
 Github怎么用？
-	1 用你的github账户登录，从这个project页面中下载整个文件夹，覆盖至你的main文件夹。（覆盖前记得备份你原先的代码）
+	1 用你的github账户登录，从这个project页面中下载整个文件夹，覆盖至你的proj文件夹。在IDE中打开它（覆盖前记得备份你原先的代码）。
 	2 在你本地的电脑进行coding和调试。
 	3 将你最新的代码（即是你负责的class的java文件）upload至这个project。upload时请务必务必create new branches！！（具体操作，就是拉到页面的最下方（比如这个页面最下方），选择create
 	a new branch...）
