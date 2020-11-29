@@ -1,3 +1,10 @@
+Github怎么用？
+	1 用你的github账户登录，从这个project页面中下载整个文件夹，覆盖至你的main文件夹。（覆盖前记得备份你原先的代码）
+	2 在你本地的电脑进行coding和调试。
+	3 将你最新的代码（即是你负责的class的java文件）upload至这个project。upload时请务必务必create new branches！！（具体操作，就是拉到页面的最下方（比如这个页面最下方），选择create
+	a new branch...）
+这样就可以保证我们用的都是最新的代码了。
+
 xdm在写之前注意：
 	1、把src文件夹解压覆盖至你自己的project下src文件夹。
 	2、只改动你自己负责的class，不要在main里面加任何内容。
