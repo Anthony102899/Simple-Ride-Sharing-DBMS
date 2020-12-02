@@ -21,7 +21,12 @@ public class root {
         System.out.println("5. Quit the programme");
         System.out.println("Please enter [1-5]");
         Scanner s = new Scanner(System.in);
-        String root = s.nextLine();
-        return Integer.parseInt(root);
+        int root;
+        try{
+            root = s.nextInt();
+        }catch(Exception e){
+            root = 0;
+        }
+        return root;
     }
 }

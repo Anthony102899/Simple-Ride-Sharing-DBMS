@@ -18,7 +18,6 @@ public class Admin {
                                    "create table trip(id int primary key, driver_id int, passenger_id int, start_time datetime, end_time datetime, start_location varchar(20) not null, destination varchar(20) not null, fee int);",
                                    "create table taxi_stop(name varchar(20) primary key, location_x int, location_y int);"};
     static String DeleteQuery = "DROP TABLE driver, vehicle, passenger, request, trip, taxi_stop;";
-    
     public Admin(Connection con) throws SQLException{
         int temp = 0;
         while(temp != 5){
@@ -28,14 +27,14 @@ public class Admin {
                     try{
                         create_Table(con);
                     }catch(Exception e){
-                        System.out.println("Table already exists!");
+                        System.out.println("[ERROR]: Table already exists!");
                     }
                     break;
                 case 2:
                     try{
                         delete_Table(con);
                     }catch(Exception e){
-                        System.out.println("No table is found!");
+                        System.out.println("[Error]: No table is found!");
                     }
                     break;
                 case 3:
@@ -69,7 +68,13 @@ public class Admin {
         System.out.println("5. Go back");
         System.out.println("Please enter [1-5]");
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        int n = 0;
+        try{
+            n = scanner.nextInt();
+        }catch(Exception e){
+            n = 0;
+        }
+        return n;
     }
     public static void create_Table(Connection con) throws SQLException{
         Statement stmt = con.createStatement();
@@ -189,6 +194,70 @@ public class Admin {
     }
     
     public static void check_Data(Connection con) throws SQLException{
+        int counter;
+        Statement stmt = con.createStatement();
+        String temp = null;
         
+        try{
+            counter = 0;
+            ResultSet rs = stmt.executeQuery("SELECT * FROM vehicle;");
+            while(rs.next()){
+                counter++;
+            }
+            System.out.println("Numbers of records in each table");
+            System.out.println("Vehicle: " + counter);
+        }catch(Exception e){
+            System.out.println("[ERROR] table vehicle doesn't exist!");
+        }
+        try{
+            counter = 0;
+            ResultSet rs = stmt.executeQuery("SELECT * FROM passenger;");
+            while(rs.next()){
+                counter++;
+            }
+            System.out.println("Passenger: " + counter);
+        }catch(Exception e){
+            System.out.println("[ERROR] table passenger doesn't exist!");
+        }
+        try{
+            counter = 0;
+            ResultSet rs = stmt.executeQuery("SELECT * FROM driver;");
+            while(rs.next()){
+                counter++;
+            }
+            System.out.println("Driver: " + counter);
+        }catch(Exception e){
+            System.out.println("[ERROR] table driver doesn't exist!");
+        }
+        try{
+            counter = 0;
+            ResultSet rs = stmt.executeQuery("SELECT * FROM trip;");
+            while(rs.next()){
+                counter++;
+            }
+            System.out.println("Trip: " + counter);
+        }catch(Exception e){
+            System.out.println("[ERROR] table trip doesn't exist!");
+        }
+        try{
+            counter = 0;
+            ResultSet rs = stmt.executeQuery("SELECT * FROM request;");
+            while(rs.next()){
+                counter++;
+            }
+            System.out.println("Request: " + counter);
+        }catch(Exception e){
+            System.out.println("[ERROR] table Request doesn't exist!");
+        }
+        try{
+            counter = 0;
+            ResultSet rs = stmt.executeQuery("SELECT * FROM taxi_stop;");
+            while(rs.next()){
+                counter++;
+            }
+            System.out.println("Taxi_Stop: " + counter);
+        }catch(Exception e){
+            System.out.println("[ERROR] table taxi_stop doesn't exist!");
+        }
     }
 }
