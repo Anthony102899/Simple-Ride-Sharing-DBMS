@@ -7,12 +7,16 @@ package pkg3170proj;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author 24111
  */
 public class Driver {
     public Driver(Connection con){
+        String id = null;
+        String start_location = null;
+        String destination = null;
         String driver_id;
         String driver_location_x;
         String driver_location_y;
@@ -32,14 +36,14 @@ public class Driver {
             continue;
         }
         //System.out.println("do >>> " + do_thing);
-        try
+        /*try
         {
-        Statement stmt1 = con.createStatement();
-        String sql1 = "INSERT INTO request(id, passenger_id, start_location, destination, model, passengers, taken, driving_years) VALUES('2', '43', 'Lok Fu', 'Mei Foo', '', '1', '0', '0')";
-        stmt1.executeUpdate(sql1);
+            Statement stmt1 = con.createStatement();
+            String sql1 = "INSERT INTO request(id, passenger_id, start_location, destination, model, passengers, taken, driving_years) VALUES('2', '43', 'Lok Fu', 'Mei Foo', '', '1', '0', '0')";
+            stmt1.executeUpdate(sql1);
         }catch(Exception e){
-                System.out.println("fuck");
-        }
+                System.out.println("error");
+        }*/
         if(Integer.parseInt(do_thing) == 1)// SEARCH REQUEST
         {
             System.out.println("Please enter your ID.");
@@ -93,8 +97,10 @@ public class Driver {
             }
         }
         
-        else if(Integer.parseInt(do_thing) == 2){ 
+        else if(Integer.parseInt(do_thing) == 2){
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");    
             int flag = 0;
+            int counter = 0;
             System.out.println("Please enter your ID.");
             driver_id = s.nextLine();// DRIVER_ID
             System.out.println("Please enter your request ID.");
@@ -113,36 +119,85 @@ public class Driver {
                     + "AND R.taken = 0 "
                     + "AND R.passengers < V.seats "
                     + "AND D.id = " + driver_id;
-            System.out.println(sql);
-            //System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
-            System.out.println("Trip ID, Passenger name, Start");
+            //System.out.println("Trip ID, Passenger name, Start");
             Date date = new Date();
             while(rs.next())
             {
                 flag = 1;
-                try{
-                Statement stmtacc = con.createStatement();
-                String sqlacc = "UPDATE request "
-                    + "SET taken = '1' "
-                    + "WHERE id = " + request_id;
-                stmtacc.executeUpdate(sqlacc);
+                try
+                {
+                    Statement stmtacc = con.createStatement();
+                    String sqlacc = "UPDATE request "
+                        + "SET taken = '1' "
+                        + "WHERE id = " + request_id;
+                    stmtacc.executeUpdate(sqlacc);
                 }catch (Exception e){
-                    System.out.println("No appopriate require or wrong input, please try again3");
+                    System.out.println("No appopriate require or wrong input, please try again");
                 }
-                System.out.println(rs.getString(1) + ", " + (rs.getString(2)) + ", " + (date.toString()));
-            }
-            if(flag == 0)
-                System.out.println("No appopriate require or wrong input, please try again1");
-            }catch(Exception e){
-                System.out.println("No appopriate require or wrong input, please try again2");
-            }
+                try
+                {
+                    Statement stmt4 = con.createStatement();
+                    String sql4 = "SELECT * FROM trip";
+                    ResultSet rs4 = stmt4.executeQuery(sql4);
+                    while(rs4.next())
+                    {
+                        counter++;
+                    }
+                    //System.out.println(counter);
+                }catch(Exception e){
+                        System.out.println("error");
+                }
+                counter++;
+                try 
+                {
+                    Statement stmt5 = con.createStatement();
+                    String sql5 = "SELECT DISTINCT R.passenger_id, R.start_location, R.destination FROM request R WHERE R.id = " + request_id;
+                    ResultSet rs5 = stmt5.executeQuery(sql5);
+                    System.out.println(sql5);
+                    rs5.next();
+                    id = rs5.getString(1);
+                    start_location = rs5.getString(2);
+                    destination = rs5.getString(3);
+                    System.out.println(id);
+                    System.out.println(start_location);
+                    System.out.println(destination);
+
+                }catch(Exception e){
+                    System.out.println(e);
+                }
+
+                    /*try
+                    {
+                        Statement stmt3 = con.createStatement();
+                        String sql3 = "INSERT INTO request(id, passenger_id, start_location, destination, model, passengers, taken, driving_years) VALUES('2', '43', 'Lok Fu', 'Mei Foo', '', '1', '0', '0')";
+                        ResultSet rs3 = stmt3.executeQuery(sql3);
+                    }catch(Exception e){
+                        System.out.println("error");
+                    }*/
+                try
+               {
+                    Statement stmt2 = con.createStatement();
+                    String sql2 = "INSERT INTO trip(id, driver_id, passenger_id, start_location, destination, start_time, end_time, fee) "
+                        + "VALUES(" + counter + ", " + Integer.parseInt(driver_id) + ", " + Integer.parseInt(id) + ", '" + start_location + "','" + destination + "','" + df.format(new Date())+ "', '0000-00-00 00:00:00', 0)";
+                    System.out.println(sql2);
+                    stmt2.executeUpdate(sql2);
+                }catch(Exception e){
+                System.out.println(e);
+                }
+            //System.out.println(rs.getString(1) + ", " + rs.getString(2) + ", " + date.toString());
         }
+        if(flag == 0)
+            System.out.println("No appopriate require or wrong input, please try again");
+        }catch(Exception e){
+            System.out.println("No appopriate require or wrong input, please try again");
+        }
+    }
         
         else if(Integer.parseInt(do_thing) == 3){ 
             System.out.println("Please enter your ID.");
-            driver_id = s.nextLine();// DRIVER_ID
-            //We should check whther id is valid or not later, and whether the ID have taken a request.
+            driver_id = s.nextLine();
+            
         }
         
         else if(Integer.parseInt(do_thing) == 4){ 
