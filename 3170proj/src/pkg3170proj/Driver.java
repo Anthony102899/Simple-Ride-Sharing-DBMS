@@ -6,6 +6,7 @@
 package pkg3170proj;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 /**
  *
  * @author 24111
@@ -31,14 +32,14 @@ public class Driver {
             continue;
         }
         //System.out.println("do >>> " + do_thing);
-        /*try
+        try
         {
         Statement stmt1 = con.createStatement();
-        String sql1 = "INSERT INTO request(id, passenger_id, start_location, destination, model, passengers, taken, driving_years) VALUES('1', '43', 'Lok Fu', 'Mei Foo', 'Mazda 6', '1', '0', '0')";
+        String sql1 = "INSERT INTO request(id, passenger_id, start_location, destination, model, passengers, taken, driving_years) VALUES('2', '43', 'Lok Fu', 'Mei Foo', '', '1', '0', '0')";
         stmt1.executeUpdate(sql1);
         }catch(Exception e){
                 System.out.println("fuck");
-        }*/
+        }
         if(Integer.parseInt(do_thing) == 1)// SEARCH REQUEST
         {
             System.out.println("Please enter your ID.");
@@ -76,7 +77,8 @@ public class Driver {
                     + "AND D.vehicle_id = V.id "
                     + "AND (V.model = R.model OR R.model = '') "
                     + "AND T.name = R.start_location "
-                    + "AND R."
+                    + "AND R.taken = 0 "
+                    + "AND R.passengers < V.seats "
                     + "AND ((abs(T.location_x - " + driver_location_x + ")) + (abs(T.location_y - " + driver_location_y + ")) < " + max_distance + ")"
                     + "AND D.id = " + driver_id;
             //System.out.println(sql);
@@ -92,14 +94,49 @@ public class Driver {
         }
         
         else if(Integer.parseInt(do_thing) == 2){ 
+            int flag = 0;
             System.out.println("Please enter your ID.");
             driver_id = s.nextLine();// DRIVER_ID
-            //We should check whther id is valid or not later.
             System.out.println("Please enter your request ID.");
             String request_id = s.nextLine();
-            //We should check whther request id is valid or not later.
-            System.out.println("ID is >>>" + driver_id);
-            System.out.println("Request ID is >>>" + request_id);
+            //System.out.println("ID is >>>" + driver_id);
+            //System.out.println("Request ID is >>>" + request_id);
+            try{
+            Statement stmt = con.createStatement();
+            String sql = "SELECT DISTINCT R.id, P.name "
+                    + "FROM request R, passenger P, driver D, vehicle V "
+                    + "WHERE P.id = R.passenger_id "
+                    //+ " AND R.id is not null AND P.name is not null "
+                    + "AND R.id = " + request_id
+                    + " AND D.vehicle_id = V.id "
+                    + "AND (V.model = R.model OR R.model = '') "
+                    + "AND R.taken = 0 "
+                    + "AND R.passengers < V.seats "
+                    + "AND D.id = " + driver_id;
+            System.out.println(sql);
+            //System.out.println(sql);
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println("Trip ID, Passenger name, Start");
+            Date date = new Date();
+            while(rs.next())
+            {
+                flag = 1;
+                try{
+                Statement stmtacc = con.createStatement();
+                String sqlacc = "UPDATE request "
+                    + "SET taken = '1' "
+                    + "WHERE id = " + request_id;
+                stmtacc.executeUpdate(sqlacc);
+                }catch (Exception e){
+                    System.out.println("No appopriate require or wrong input, please try again3");
+                }
+                System.out.println(rs.getString(1) + ", " + (rs.getString(2)) + ", " + (date.toString()));
+            }
+            if(flag == 0)
+                System.out.println("No appopriate require or wrong input, please try again1");
+            }catch(Exception e){
+                System.out.println("No appopriate require or wrong input, please try again2");
+            }
         }
         
         else if(Integer.parseInt(do_thing) == 3){ 
