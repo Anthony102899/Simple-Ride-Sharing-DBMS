@@ -51,7 +51,7 @@ public class Driver {
         /*try
         {
             Statement stmt1 = con.createStatement();
-            String sql1 = "INSERT INTO request(id, passenger_id, start_location, destination, model, passengers, taken, driving_years) VALUES('6', '3', 'Lam Tin', 'Lok Fu', 'BMW X5', '4', '0', '4')";
+            String sql1 = "INSERT INTO request(id, passenger_id, start_location, destination, model, passengers, taken, driving_years) VALUES('3', '3', 'Lam Tin', 'Lok Fu', 'BMW X5', '4', '0', '4')";
             stmt1.executeUpdate(sql1);
         }catch(Exception e){
                 System.out.println("error");
@@ -271,7 +271,7 @@ public class Driver {
                 try
                 {
                   Statement stmt9 = con.createStatement();
-                  String sql9 = "SELECT DISTINCT T.id,T.passenger_id, T.start_time, T.end_time, T.fee FROM trip T WHERE T.id = " + Integer.parseInt(result1);
+                  String sql9 = "SELECT DISTINCT T.id, P.name, T.start_time, T.end_time, T.fee FROM trip T, passenger P WHERE P.id = T.passenger_id AND T.id = " + Integer.parseInt(result1);
                   //System.out.println(sql6);
                   ResultSet rs9 = stmt9.executeQuery(sql9);
                   rs9.next();
