@@ -38,9 +38,9 @@ public class Driver {
         System.out.println("2. Take a request");
         System.out.println("3. Finish a trip");
         System.out.println("4. Go back");
-        Scanner s = new Scanner(System.in);
+        //Scanner s = new Scanner(System.in);
         System.out.println("Please enter [1-4]");
-        String do_thing = s.nextLine();
+        String do_thing = scn.nextLine();
         if ((Integer.parseInt(do_thing) < 1) || (Integer.parseInt(do_thing) > 4))
         {
             System.out.println("Invalid input, please try again.");
@@ -58,12 +58,12 @@ public class Driver {
         if(Integer.parseInt(do_thing) == 1)// SEARCH REQUEST
         {
             System.out.println("Please enter your ID.");
-            driver_id = s.nextLine();// DRIVER_ID
+            driver_id = scn.nextLine();// DRIVER_ID
             //We should check whther id is valid or not later.
             while(1 == 1)
             {
                 System.out.println("Please enter the coordinates of your location.");
-                String[] numbers = s.nextLine().split(" ");
+                String[] numbers = scn.nextLine().split(" ");
                 if(numbers.length == 2)
                 {
                      driver_location_x = numbers[0];//LOCATION_X
@@ -79,7 +79,7 @@ public class Driver {
                     System.out.println("Invalid input, please try again.");
             }
             System.out.println("Please enter the maximum distance from you to the passenger.");
-            max_distance = s.nextLine();
+            max_distance = scn.nextLine();
             //System.out.println("ID is >>> " + driver_id);
             //System.out.println("Location x is >>> " + driver_location_x);
             //System.out.println("Location y is >>> " + driver_location_y);
@@ -113,9 +113,9 @@ public class Driver {
             int flag = 0;
             int counter = 0;
             System.out.println("Please enter your ID.");
-            driver_id = s.nextLine();// DRIVER_ID
+            driver_id = scn.nextLine();// DRIVER_ID
             System.out.println("Please enter your request ID.");
-            String request_id = s.nextLine();
+            String request_id = scn.nextLine();
             //System.out.println("ID is >>>" + driver_id);
             //System.out.println("Request ID is >>>" + request_id);
             try{
@@ -224,7 +224,7 @@ public class Driver {
         else if(Integer.parseInt(do_thing) == 3){ 
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
             System.out.println("Please enter your ID.");
-            driver_id = s.nextLine();
+            driver_id = scn.nextLine();
             try
              {
                   Statement stmt6 = con.createStatement();
@@ -242,7 +242,7 @@ public class Driver {
                 //continue;
              }
             System.out.println("Do you wish to finish the trip? [y/n]");
-            yn = s.nextLine();
+            yn = scn.nextLine();
             if (yn.equals("y"))
             {
                 try
