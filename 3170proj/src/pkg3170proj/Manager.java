@@ -1,4 +1,3 @@
-
 package pkg3170proj;
 import java.sql.*;
 import java.util.*;
@@ -35,7 +34,7 @@ public class Manager {
         int m;
         Scanner scn = new Scanner(System.in);
         try{
-            m = scn.nextInt();
+            m = Integer.parseInt(scn.nextLine());
         }catch(Exception e){
             m = 0;
         }
@@ -83,7 +82,7 @@ public class Manager {
         System.out.println("Please enter the minimum traveling distance.");
         Scanner scn = new Scanner(System.in);
         try{
-            min = scn.nextInt();
+            min = Integer.parseInt(scn.nextLine());
         }catch(Exception e){
             min = -1;
         }
@@ -94,7 +93,7 @@ public class Manager {
         System.out.println("Please enter the maximum traveling distance.");
         Scanner scn = new Scanner(System.in);
         try{
-            max = scn.nextInt();
+            max = Integer.parseInt(scn.nextLine());
         }catch(Exception e){
             max = -1;
         }

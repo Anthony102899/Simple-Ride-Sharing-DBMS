@@ -1,4 +1,3 @@
-
 package pkg3170proj;
 import java.sql.*;
 import java.util.*;
@@ -18,10 +17,10 @@ public class Admin {
                                    "create table trip(id int primary key, driver_id int, passenger_id int, start_time datetime, end_time datetime, start_location varchar(20) not null, destination varchar(20) not null, fee int);",
                                    "create table taxi_stop(name varchar(20) primary key, location_x int, location_y int);"};
     static String DeleteQuery = "DROP TABLE driver, vehicle, passenger, request, trip, taxi_stop;";
-    public Admin(Connection con) throws SQLException{
+    public Admin(Connection con, Scanner scn) throws SQLException{
         int temp = 0;
         while(temp != 5){
-            temp = Admin_UI();
+            temp = Admin_UI(scn);
             switch(temp){
                 case 1:
                     try{
@@ -39,7 +38,7 @@ public class Admin {
                     break;
                 case 3:
                     try{
-                        load_Data(con);
+                        load_Data(con, scn);
                     }catch(Exception e){
                         System.out.println("[ERROR]: Can't find the directory or the csv file is missed!");
                     }
@@ -59,7 +58,7 @@ public class Admin {
             }
         }
     }
-    public static int Admin_UI(){
+    public static int Admin_UI(Scanner scanner){
         System.out.println("Administrator, what would you like to do?");
         System.out.println("1. Create tables");
         System.out.println("2. Delete tables");
@@ -67,12 +66,12 @@ public class Admin {
         System.out.println("4. Check data");
         System.out.println("5. Go back");
         System.out.println("Please enter [1-5]");
-        Scanner scanner = new Scanner(System.in);
         int n = 0;
         try{
-            n = scanner.nextInt();
+            n = Integer.parseInt(scanner.nextLine());
         }catch(Exception e){
             n = 0;
+            System.out.println(e);
         }
         return n;
     }
@@ -88,13 +87,12 @@ public class Admin {
         stmt.executeUpdate(DeleteQuery);
         System.out.println("Done! Tables are deleted!");
     }
-    public static void load_Data(Connection con) throws SQLException, IOException{
+    public static void load_Data(Connection con, Scanner scn) throws SQLException, IOException{
         Statement stmt = con.createStatement();
         String temp = null;
         String[] instances = null;
         System.out.println("Please enter the folder path");
-        Scanner scanner = new Scanner(System.in);
-        String path = scanner.nextLine();
+        String path = scn.nextLine();
         //System.out.println(path);
         File drivers = new File(path + "\\drivers.csv");
         File passengers = new File(path + "\\passengers.csv");

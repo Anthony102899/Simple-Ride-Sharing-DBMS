@@ -2,8 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
-package pkg3170proj;
+ */package pkg3170proj;
 
 import java.sql.*;
 /**
@@ -20,7 +19,7 @@ public class Conn {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(dbAddress, dbUsername, dbPassword);
-            System.out.println("connected!");
+            //System.out.println("connected!");
         }catch (ClassNotFoundException e){
             System.out.println("[ERROR]: Java MySQL DB Driver not found!!");
             System.exit(0);

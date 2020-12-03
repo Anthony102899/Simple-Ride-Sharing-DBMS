@@ -2,9 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
-
-package pkg3170proj;
+ */package pkg3170proj;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -50,8 +48,14 @@ public class Passenger {
         System.out.println("2. Check trip records");
         System.out.println("3. Go back");
         System.out.println("Please enter [1-3].");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        int m = 0;
+        Scanner scn = new Scanner(System.in);
+        try{
+            m = Integer.parseInt(scn.nextLine());
+        }catch(Exception e){
+            m = 0;
+        }
+        return m;
     }
     
      public static void request_a_trip(Connection con) throws SQLException{
@@ -65,15 +69,14 @@ public class Passenger {
         
        Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter your ID.");
-         ID=scanner.nextInt();
+         ID = Integer.parseInt(scanner.nextLine());
          
         // System.out.println("test"+ID);
         
         System.out.println("Please enter the number of passengers.");
-         num_of_passengers=scanner.nextInt();
+         num_of_passengers=Integer.parseInt(scanner.nextLine());
          
          //System.out.println("test"+num_of_passengers);
-         scanner.nextLine();
          
         System.out.println("Please enter the start location."); 
          start_location=scanner.nextLine();
@@ -91,7 +94,7 @@ public class Passenger {
          //System.out.println("test"+model);
          
         System.out.println("Please enter the minimum driving years of the driver.(Press enter to skip)");
-         min_driving_years=scanner.nextInt();
+         min_driving_years=Integer.parseInt(scanner.nextLine());
          
          //System.out.println("test"+min_driving_years);
          
@@ -137,7 +140,7 @@ public class Passenger {
                      Statement stmt1=con.createStatement();
                      String str1="INSERT INTO request"
                              + " VALUES("+max_id+ ","+ID +",'"+start_location+"','"+destination+"','"+model+"',"+num_of_passengers+",0,"+min_driving_years+")";
-                     System.out.println("test"+str1);
+                     //System.out.println("test"+str1);
                      stmt1.executeUpdate(str1);
                      //System.out.println("test_____insert success");
                     

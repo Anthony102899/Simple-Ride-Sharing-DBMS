@@ -12,7 +12,7 @@ import java.sql.*;
  * @author 24111
  */
 public class root {
-    public static int initial_page(){
+    public static int initial_page(Scanner s){
         System.out.println("Welcome! Who are you?");
         System.out.println("1. An administrator");
         System.out.println("2. A passenger");
@@ -20,12 +20,12 @@ public class root {
         System.out.println("4. A manager");
         System.out.println("5. Quit the programme");
         System.out.println("Please enter [1-5]");
-        Scanner s = new Scanner(System.in);
         int root;
         try{
-            root = s.nextInt();
+            root = Integer.parseInt(s.nextLine());
         }catch(Exception e){
             root = 0;
+            
         }
         return root;
     }

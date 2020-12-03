@@ -1,9 +1,10 @@
+package pkg3170proj;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pkg3170proj;
 import java.sql.*;
 import java.util.*;
 /**
@@ -17,11 +18,12 @@ public class Main {
      */
     public static void main(String[] args) throws SQLException {
        Connection con = Conn.connect();
+       Scanner scanner = new Scanner(System.in);
        int ReturnValue = 0;
        while(ReturnValue != 5){
-           ReturnValue = root.initial_page();
+           ReturnValue = root.initial_page(scanner);
             if(ReturnValue == 1){
-                Admin admin = new Admin(con);
+                Admin admin = new Admin(con, scanner);
             }else if(ReturnValue == 2){
                 Passenger pass = new Passenger(con);
             }else if(ReturnValue == 3){
