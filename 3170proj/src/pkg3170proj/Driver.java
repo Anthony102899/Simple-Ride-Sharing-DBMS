@@ -15,7 +15,15 @@ import java.text.SimpleDateFormat;
 public class Driver {
     public Driver(Connection con){
         String id = null;
+        String result1 = null;
+        String result2 = null;
+        String result3 = null;
         String yn;
+        String R1 = null;
+        String R2 = null;
+        String R3 = null;
+        String R4 = null;
+        String R5 = null;
         String start_location = null;
         String destination = null;
         String driver_id;
@@ -43,7 +51,7 @@ public class Driver {
         /*try
         {
             Statement stmt1 = con.createStatement();
-            String sql1 = "INSERT INTO request(id, passenger_id, start_location, destination, model, passengers, taken, driving_years) VALUES('2', '43', 'Lok Fu', 'Mei Foo', '', '1', '0', '0')";
+            String sql1 = "INSERT INTO request(id, passenger_id, start_location, destination, model, passengers, taken, driving_years) VALUES('6', '3', 'Lam Tin', 'Lok Fu', 'BMW X5', '4', '0', '4')";
             stmt1.executeUpdate(sql1);
         }catch(Exception e){
                 System.out.println("error");
@@ -86,7 +94,7 @@ public class Driver {
                     + "AND (V.model = R.model OR R.model = '') "
                     + "AND T.name = R.start_location "
                     + "AND R.taken = 0 "
-                    + "AND R.passengers < V.seats "
+                    + "AND R.passengers <= V.seats "
                     + "AND ((abs(T.location_x - " + driver_location_x + ")) + (abs(T.location_y - " + driver_location_y + ")) < " + max_distance + ")"
                     + "AND D.id = " + driver_id;
             //System.out.println(sql);
@@ -97,7 +105,7 @@ public class Driver {
                 System.out.println(rs.getString(1) + ", " + (rs.getString(2)) + ", " + (rs.getString(3)) + ", " + (rs.getString(4)) + ", " + (rs.getString(5)));
             }
             }catch(Exception e){
-                System.out.println("No appopriate require or wrong input, please try again");
+                System.out.println("No appropriate require or wrong input, please try again1");
             }
         }
         
@@ -121,7 +129,7 @@ public class Driver {
                     + " AND D.vehicle_id = V.id "
                     + "AND (V.model = R.model OR R.model = '') "
                     + "AND R.taken = 0 "
-                    + "AND R.passengers < V.seats "
+                    + "AND R.passengers <= V.seats "
                     + "AND D.id = " + driver_id;
             ResultSet rs = stmt.executeQuery(sql);
             //System.out.println("Trip ID, Passenger name, Start");
@@ -137,7 +145,7 @@ public class Driver {
                         + "WHERE id = " + request_id;
                     stmtacc.executeUpdate(sqlacc);
                 }catch (Exception e){
-                    System.out.println("No appopriate require or wrong input, please try again");
+                    System.out.println("No appropriate require or wrong input, please try again2");
                 }
                 try
                 {
@@ -158,7 +166,7 @@ public class Driver {
                     Statement stmt5 = con.createStatement();
                     String sql5 = "SELECT DISTINCT R.passenger_id, R.start_location, R.destination FROM request R WHERE R.id = " + request_id;
                     ResultSet rs5 = stmt5.executeQuery(sql5);
-                    System.out.println(sql5);
+                    //System.out.println(sql5);
                     rs5.next();
                     id = rs5.getString(1);
                     start_location = rs5.getString(2);
@@ -184,17 +192,33 @@ public class Driver {
                     Statement stmt2 = con.createStatement();
                     String sql2 = "INSERT INTO trip(id, driver_id, passenger_id, start_location, destination, start_time, end_time, fee) "
                         + "VALUES(" + counter + ", " + Integer.parseInt(driver_id) + ", " + Integer.parseInt(id) + ", '" + start_location + "','" + destination + "','" + df.format(new Date())+ "', '0000-00-00 00:00:00', 0)";
-                    System.out.println(sql2);
                     stmt2.executeUpdate(sql2);
                 }catch(Exception e){
                 System.out.println(e);
                 }
+            try{
+            Statement stmt8 = con.createStatement();
+            String sql8 = "SELECT DISTINCT T.id, P.name, T.start_time "
+                    + "FROM trip T, passenger P "
+                    + "WHERE T.passenger_id = P.id AND T.id = " + counter;
+            //System.out.println(sql8);
+            ResultSet rs8 = stmt8.executeQuery(sql8);
+            System.out.println("Trip ID, Passenger name, Start");
+            rs8.next();
+            result1 = rs8.getString(1);
+            result2 = rs8.getString(2);
+            result3 = rs8.getString(3);
+            System.out.println(result1 + ", " + result2 + ", " + result3);
+            }catch(Exception e){
+                System.out.println("No appropriate require or wrong input, please try again3");
+            }
+                
             //System.out.println(rs.getString(1) + ", " + rs.getString(2) + ", " + date.toString());
         }
         if(flag == 0)
-            System.out.println("No appopriate require or wrong input, please try again");
+            System.out.println("No appropriate require or wrong input, please try again4");
         }catch(Exception e){
-            System.out.println("No appopriate require or wrong input, please try again");
+            System.out.println("No appropriate require or wrong input, please try again5");
         }
     }
         
@@ -206,7 +230,7 @@ public class Driver {
              {
                   Statement stmt6 = con.createStatement();
                   String sql6 = "SELECT DISTINCT T.id,T.passenger_id, T.start_time FROM trip T WHERE T.end_time = '0000-00-00 00:00:00' AND T.driver_id = " + driver_id;
-                  System.out.println(sql6);
+                  //System.out.println(sql6);
                   stmt6.executeQuery(sql6);
                   ResultSet rs6 = stmt6.executeQuery(sql6);
                   rs6.next();
@@ -220,18 +244,45 @@ public class Driver {
              }
             System.out.println("Do you wish to finish the trip? [y/n]");
             yn = s.nextLine();
-            if (yn == "e")
+            if (yn.equals("y"))
             {
                 try
                 {
                     Statement stmt7 = con.createStatement();
                     String sql7 = "UPDATE trip "
-                        + "SET taken = '" + df.format(new Date()) + "' "
+                        + "SET end_time = '" + df.format(new Date()) + "' "
                         + "WHERE driver_id = " + driver_id;
-                    System.out.println(sql7);
+                    //System.out.println(sql7);
                     stmt7.executeUpdate(sql7);
                 }catch (Exception e){
-                    System.out.println("No appopriate require or wrong input, please try again");
+                    System.out.println("No appropriate require or wrong input, please try again6");
+                }
+                try
+                {
+                    Statement stmt8 = con.createStatement();
+                    String sql8 = "UPDATE trip "
+                        + "SET fee = TIMESTAMPDIFF(MINUTE, start_time, end_time) "
+                        + "WHERE driver_id = " + driver_id;
+                    //System.out.println(sql8);
+                    stmt8.executeUpdate(sql8);
+                }catch (Exception e){
+                    System.out.println("No appropriate require or wrong input, please try again7");
+                }
+                try
+                {
+                  Statement stmt9 = con.createStatement();
+                  String sql9 = "SELECT DISTINCT T.id,T.passenger_id, T.start_time, T.end_time, T.fee FROM trip T WHERE T.id = " + Integer.parseInt(result1);
+                  //System.out.println(sql6);
+                  ResultSet rs9 = stmt9.executeQuery(sql9);
+                  rs9.next();
+                  R1 = rs9.getString(1);
+                  R2 = rs9.getString(2);
+                  R3 = rs9.getString(3);
+                  R4 = rs9.getString(4);
+                  R5 = rs9.getString(5);
+                  System.out.println(R1 + ", " + R2 + ", " + R3 + ", " + R4 + ", " + R5);
+                }catch(Exception e){
+                    System.out.println(e);
                 }
             }
             else
