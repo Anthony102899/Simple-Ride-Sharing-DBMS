@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class Passenger {
 
-    public Passenger(Connection con)throws SQLException{
+    public Passenger(Connection con, Scanner scn)throws SQLException{
         
          int temp = 0;
         while(temp != 3){

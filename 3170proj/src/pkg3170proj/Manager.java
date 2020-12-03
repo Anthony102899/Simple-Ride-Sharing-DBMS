@@ -6,14 +6,14 @@ import java.util.*;
  * @author LYU An
  */
 public class Manager {
-    public Manager(Connection con){
+    public Manager(Connection con, Scanner scn){
         int temp = 0;
         while(temp != 2){
-            temp = Manager_UI();
+            temp = Manager_UI(scn);
             switch(temp){
                 case 1:
                     try{
-                        findTrips(con);
+                        findTrips(con, scn);
                     }catch(Exception e){
                         
                     }
@@ -26,13 +26,12 @@ public class Manager {
         }
     }
     
-    public static int Manager_UI(){
+    public static int Manager_UI(Scanner scn){
         System.out.println("Manager, what would you like to do?");
         System.out.println("1. Find trips");
         System.out.println("2. Go back");
         System.out.println("Please enter [1-2]");
         int m;
-        Scanner scn = new Scanner(System.in);
         try{
             m = Integer.parseInt(scn.nextLine());
         }catch(Exception e){
@@ -41,18 +40,18 @@ public class Manager {
         return m;
     }
     
-    public static void findTrips(Connection con) throws SQLException{
+    public static void findTrips(Connection con, Scanner scn) throws SQLException{
         int dis_min = -1;
         int dis_max = -1;
         int flag = 0;
         while(dis_min < 0){
-            dis_min = getMin(); 
+            dis_min = getMin(scn); 
             if(dis_min < 0){
                 System.out.println("[ERROR]: The input should be an integer no smaller than 0.");
             }
         }
         while(dis_max < 0 || dis_max <= dis_min){
-            dis_max = getMax();
+            dis_max = getMax(scn);
             if(dis_max <= 0 || dis_max <= dis_min){
                 System.out.println("[ERROR]: The input should be a positive integer and larger than the minimum.");
             }
@@ -77,10 +76,9 @@ public class Manager {
         }
     }
     
-    public static int getMin(){
+    public static int getMin(Scanner scn){
         int min;
         System.out.println("Please enter the minimum traveling distance.");
-        Scanner scn = new Scanner(System.in);
         try{
             min = Integer.parseInt(scn.nextLine());
         }catch(Exception e){
@@ -88,10 +86,9 @@ public class Manager {
         }
         return min;
     }
-    public static int getMax(){
+    public static int getMax(Scanner scn){
         int max;
         System.out.println("Please enter the maximum traveling distance.");
-        Scanner scn = new Scanner(System.in);
         try{
             max = Integer.parseInt(scn.nextLine());
         }catch(Exception e){

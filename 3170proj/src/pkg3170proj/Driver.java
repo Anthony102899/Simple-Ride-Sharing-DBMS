@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
  * @author 24111
  */
 public class Driver {
-    public Driver(Connection con){
+    public Driver(Connection con, Scanner scn){
         String id = null;
         String result1 = null;
         String result2 = null;

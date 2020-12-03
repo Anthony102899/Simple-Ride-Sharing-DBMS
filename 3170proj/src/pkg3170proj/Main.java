@@ -25,11 +25,11 @@ public class Main {
             if(ReturnValue == 1){
                 Admin admin = new Admin(con, scanner);
             }else if(ReturnValue == 2){
-                Passenger pass = new Passenger(con);
+                Passenger pass = new Passenger(con, scanner);
             }else if(ReturnValue == 3){
-                Driver driver = new Driver(con);
+                Driver driver = new Driver(con, scanner);
             }else if(ReturnValue == 4){
-                Manager manager = new Manager(con);
+                Manager manager = new Manager(con, scanner);
             }else if(ReturnValue == 5){
                 System.out.println("Successfully quit the program.");
             }else{
