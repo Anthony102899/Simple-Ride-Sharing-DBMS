@@ -94,11 +94,11 @@ public class Admin {
         System.out.println("Please enter the folder path");
         String path = scn.nextLine();
         //System.out.println(path);
-        File drivers = new File(path + "\\drivers.csv");
-        File passengers = new File(path + "\\passengers.csv");
-        File taxi_stops = new File(path + "\\taxi_stops.csv");
-        File trips = new File(path + "\\trips.csv");
-        File vehicles = new File(path + "\\vehicles.csv");
+        File drivers = new File(path + "/drivers.csv");
+        File passengers = new File(path + "/passengers.csv");
+        File taxi_stops = new File(path + "/taxi_stops.csv");
+        File trips = new File(path + "/trips.csv");
+        File vehicles = new File(path + "/vehicles.csv");
         String InsertQuery1 = "INSERT INTO driver(id,name,vehicle_id,driving_years) VALUES('%d','%s','%s','%d')";
         String InsertQuery2 = "INSERT INTO passenger(id,name) VALUES('%d','%s')";
         String InsertQuery3 = "INSERT INTO vehicle(id,model,seats) VALUES('%s','%s','%d')";

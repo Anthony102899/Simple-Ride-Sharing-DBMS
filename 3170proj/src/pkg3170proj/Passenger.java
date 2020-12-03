@@ -1,8 +1,10 @@
+package pkg3170proj;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */package pkg3170proj;
+ */
 import java.sql.*;
 import java.util.Scanner;
 
@@ -17,18 +19,18 @@ public class Passenger {
         
          int temp = 0;
         while(temp != 3){
-            temp = Passenger_UI();
+            temp = Passenger_UI(scn);
             switch(temp){
                 case 1:
                     try{
-                        request_a_trip(con);
+                        request_a_trip(con, scn);
                     }catch(Exception e){
                         System.out.println(e);
                     }
                     break;
                 case 2:
                     try{
-                        check_trip_records(con);
+                        check_trip_records(con, scn);
                     }catch(Exception e){
                         System.out.println(e);
                     }
@@ -42,14 +44,13 @@ public class Passenger {
         }
     }
     
-    public static int Passenger_UI(){
+    public static int Passenger_UI(Scanner scn){
         System.out.println("Passenger,what would you like to do?");
         System.out.println("1. Request a ride");
         System.out.println("2. Check trip records");
         System.out.println("3. Go back");
         System.out.println("Please enter [1-3].");
         int m = 0;
-        Scanner scn = new Scanner(System.in);
         try{
             m = Integer.parseInt(scn.nextLine());
         }catch(Exception e){
@@ -58,7 +59,7 @@ public class Passenger {
         return m;
     }
     
-     public static void request_a_trip(Connection con) throws SQLException{
+     public static void request_a_trip(Connection con, Scanner scanner) throws SQLException{
         
         int ID=0;
         int num_of_passengers=0;
@@ -67,7 +68,6 @@ public class Passenger {
         String model=null;
         int min_driving_years=0;
         
-       Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter your ID.");
          ID = Integer.parseInt(scanner.nextLine());
          
@@ -153,18 +153,16 @@ public class Passenger {
         
     }
      
-    public static void check_trip_records(Connection con) throws SQLException{
+    public static void check_trip_records(Connection con, Scanner scanner) throws SQLException{
        
         int ID=0;
        String start_date=null;
        String end_date=null;
        String destination=null;
-       
-       Scanner scanner = new Scanner(System.in);
+
        
         System.out.println("Please enter your ID.");
-        ID=scanner.nextInt();
-        scanner.nextLine();
+        ID=Integer.parseInt(scanner.nextLine());
        System.out.println("Please enter the start date.");
         start_date=scanner.nextLine();
        System.out.println("Please enter the end date.");

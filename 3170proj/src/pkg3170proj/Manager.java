@@ -58,7 +58,7 @@ public class Manager {
         }
         //System.out.println(dis_min + ", " + dis_max);
         Statement stmt = con.createStatement();
-        String SelectQuery = "SELECT t.id, d.name, p.name, s1.name, s2.name, ROUND(TIMESTAMPDIFF(SECOND,t.start_time,t.end_time)/60) AS duration FROM trip t, passenger p, driver d, taxi_stop s1, taxi_stop s2 "
+        String SelectQuery = "SELECT t.id, d.name, p.name, s1.name, s2.name, FLOOR(TIMESTAMPDIFF(SECOND,t.start_time,t.end_time)/60) AS duration FROM trip t, passenger p, driver d, taxi_stop s1, taxi_stop s2 "
                                      + "WHERE t.start_location = s1.name "
                                      + "AND t.destination = s2.name "
                                      + "AND t.driver_id = d.id "
