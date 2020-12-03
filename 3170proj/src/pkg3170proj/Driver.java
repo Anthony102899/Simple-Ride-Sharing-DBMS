@@ -15,12 +15,16 @@ import java.text.SimpleDateFormat;
 public class Driver {
     public Driver(Connection con){
         String id = null;
+        String yn;
         String start_location = null;
         String destination = null;
         String driver_id;
         String driver_location_x;
         String driver_location_y;
         String max_distance;
+        String Tid = null;
+        String Tpassenger_id = null;
+        String Tstart_time = null;
         while(1 == 1){
         System.out.println("Driver, what would you like to do?");
         System.out.println("1. Search requests");
@@ -159,9 +163,9 @@ public class Driver {
                     id = rs5.getString(1);
                     start_location = rs5.getString(2);
                     destination = rs5.getString(3);
-                    System.out.println(id);
-                    System.out.println(start_location);
-                    System.out.println(destination);
+                    //System.out.println(id);
+                    //System.out.println(start_location);
+                    //System.out.println(destination);
 
                 }catch(Exception e){
                     System.out.println(e);
@@ -195,9 +199,45 @@ public class Driver {
     }
         
         else if(Integer.parseInt(do_thing) == 3){ 
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
             System.out.println("Please enter your ID.");
             driver_id = s.nextLine();
-            
+            try
+             {
+                  Statement stmt6 = con.createStatement();
+                  String sql6 = "SELECT DISTINCT T.id,T.passenger_id, T.start_time FROM trip T WHERE T.end_time = '0000-00-00 00:00:00' AND T.driver_id = " + driver_id;
+                  System.out.println(sql6);
+                  stmt6.executeQuery(sql6);
+                  ResultSet rs6 = stmt6.executeQuery(sql6);
+                  rs6.next();
+                  Tid = rs6.getString(1);
+                  Tpassenger_id = rs6.getString(2);
+                  Tstart_time = rs6.getString(3);
+                  System.out.println(Tid + ", " + Tpassenger_id + ", " + Tstart_time);
+             }catch(Exception e){
+                System.out.println("No trips available or wrong input, please try again");
+                //continue;
+             }
+            System.out.println("Do you wish to finish the trip? [y/n]");
+            yn = s.nextLine();
+            if (yn == "e")
+            {
+                try
+                {
+                    Statement stmt7 = con.createStatement();
+                    String sql7 = "UPDATE trip "
+                        + "SET taken = '" + df.format(new Date()) + "' "
+                        + "WHERE driver_id = " + driver_id;
+                    System.out.println(sql7);
+                    stmt7.executeUpdate(sql7);
+                }catch (Exception e){
+                    System.out.println("No appopriate require or wrong input, please try again");
+                }
+            }
+            else
+            {
+                System.out.println("No or wrong input");
+            }
         }
         
         else if(Integer.parseInt(do_thing) == 4){ 
