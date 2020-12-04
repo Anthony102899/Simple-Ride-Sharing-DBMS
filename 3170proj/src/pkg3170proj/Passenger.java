@@ -4,9 +4,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import java.sql.*;
 import java.util.*;
-
 /**
  *
  * @author HUANG Zihao
@@ -64,6 +64,7 @@ public class Passenger {
         
         int ID=0;
         int flag = 0;
+        int flag1=0;
         int num_of_passengers=0;
         String start_location=null;
         String destination=null;
@@ -71,11 +72,25 @@ public class Passenger {
         int min_driving_years=0;
         String temp_min_driving_years=null;
         String CheckDest = "";
+        String CheckDest1=null;
+        String checkID=null;
+         Statement stmt_tmp = con.createStatement();
+        Statement stmt_tmp1 = con.createStatement();
+        Statement stmt_tmp2 = con.createStatement();
+        
         System.out.println("Please enter your ID.");
-        Statement stmt_tmp = con.createStatement();
          ID = Integer.parseInt(scanner.nextLine());
-         
+         checkID="SELECT * FROM request r WHERE r.passenger_id="+ID+" AND r.taken=0";
         // System.out.println("test"+ID);
+        try{
+                ResultSet rs_s3 = stmt_tmp2.executeQuery(checkID);
+                if(rs_s3.next() == true){
+                    System.out.println("[ERROR] There is alreaday a open request created by you.");
+                    return;
+                }
+            }catch(Exception e){
+                System.out.println("[ERROR]");
+            }
         
         System.out.println("Please enter the number of passengers.");
          num_of_passengers=Integer.parseInt(scanner.nextLine());
@@ -105,16 +120,33 @@ public class Passenger {
          }
          
          //System.out.println("test"+start_location);
-         
+         while(flag1 == 0){
         System.out.println("Please enter the destination.");
          destination=scanner.nextLine();
-         System.out.println(destination);
-         while(destination.equals(start_location)){
+           CheckDest1 = "SELECT * FROM taxi_stop t WHERE t.name = " + "'" + destination + "';";
+             try{
+                ResultSet rs_s2 = stmt_tmp1.executeQuery(CheckDest1);
+                if(rs_s2.next() == false){
+                    flag1 = 0;
+                    System.out.println("[ERROR] No such taxi stop.");
+                }else{
+                    flag1=1;
+                    while(destination.equals(start_location)){
+                        flag1=0;
              System.out.println("[ERROR] The destination must be different from start location!");
-             System.out.println("Please enter the destination.");
-             destination=scanner.nextLine();
+             break;
             // System.out.println(destination);
          }
+                    
+                }
+            }catch(Exception e){
+                System.out.println("[ERROR]");
+                flag1 = 0;
+            }
+         //System.out.println(destination);
+         }
+         
+         
          //System.out.println("test"+destination);
          
         System.out.println("Please enter the model.(Press enter to skip)"); 
@@ -153,7 +185,7 @@ public class Passenger {
                 num = rs.getInt(1);
                  //System.out.println("test"+num);
             }
-          
+          if(num!=0){
           System.out.println("Your request is placed. "+num+" drivers are able to take the request."); 
           
           int max_id=0;
@@ -180,8 +212,11 @@ public class Passenger {
                  }catch(Exception e){
                      System.out.println(e);
                  }
+          }
+          else
+              System.out.println("Sorry, no result. Please adjust the criteria");
          }catch(Exception e){
-             System.out.println("Sorry, no matching vehicle, please adjust the criteria");
+             System.out.println(e);
          }
         
     }
@@ -217,7 +252,9 @@ public class Passenger {
                  + " AND T.start_time>='"+start_date+"'"
                  + " AND T.end_time<='"+end_date+"'"
                  + " AND T.driver_id=D.id"
-                 + " AND D.vehicle_id=V.id";
+                 + " AND D.vehicle_id=V.id"
+                 + " AND NOT ISNULL(T.fee)"
+                 + " ORDER BY start_time DESC";
           //System.out.println("test"+str);
           
           ResultSet rs=stmt.executeQuery(str);
@@ -230,7 +267,7 @@ public class Passenger {
             }
 
          }catch(Exception e){
-             System.out.println("Sorry, check failed");
+             System.out.println("e");
          }
     }
     
