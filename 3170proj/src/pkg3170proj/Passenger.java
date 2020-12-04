@@ -67,6 +67,7 @@ public class Passenger {
         String destination=null;
         String model=null;
         int min_driving_years=0;
+        String temp_min_driving_years=null;
         
         System.out.println("Please enter your ID.");
          ID = Integer.parseInt(scanner.nextLine());
@@ -94,9 +95,13 @@ public class Passenger {
          //System.out.println("test"+model);
          
         System.out.println("Please enter the minimum driving years of the driver.(Press enter to skip)");
-         min_driving_years=Integer.parseInt(scanner.nextLine());
+        temp_min_driving_years=scanner.nextLine();
+        if("".equals(temp_min_driving_years))
+            min_driving_years=0;
+        else
+            min_driving_years=Integer.parseInt(temp_min_driving_years);
          
-         //System.out.println("test"+min_driving_years);
+        // System.out.println("test"+min_driving_years);
          
          //System.out.println("test"+num_of_passengers+model+min_driving_years);
          
@@ -126,7 +131,7 @@ public class Passenger {
           int max_id=0;
            try{
                      Statement stmt2=con.createStatement();
-                     String str2="SELECT MAX(R.id) FROM request R";
+                     String str2="SELECT MAX(R.id) FROM  request R";
                      ResultSet rs2=stmt2.executeQuery(str2);
                      rs2.next();
                      max_id=rs2.getInt(1);
@@ -163,10 +168,13 @@ public class Passenger {
        
         System.out.println("Please enter your ID.");
         ID=Integer.parseInt(scanner.nextLine());
+        
        System.out.println("Please enter the start date.");
         start_date=scanner.nextLine();
+        
        System.out.println("Please enter the end date.");
         end_date=scanner.nextLine();
+        
        System.out.println("Please enter the destination.");
        destination=scanner.nextLine();
        
@@ -189,7 +197,8 @@ public class Passenger {
           System.out.println("Trip_id, Driver Name, Vehicle ID, Vehicle Model, Start, End, Fee, Start Location, Destination");
           
           while(rs.next()){
-               System.out.println(rs.getInt(1)+","+rs.getString(2)+","+rs.getString(3)+","+rs.getString(4)+","+rs.getTimestamp(5)+","+rs.getTimestamp(6)+","+rs.getInt(7)+","+rs.getString(8)+","+rs.getString(9));
+               System.out.println(rs.getInt(1)+","+rs.getString(2)+","+rs.getString(3)+","+rs.getString(4)+","
+                       +rs.getTimestamp(5)+","+rs.getTimestamp(6)+","+rs.getInt(7)+","+rs.getString(8)+","+rs.getString(9));
             }
 
          }catch(Exception e){
