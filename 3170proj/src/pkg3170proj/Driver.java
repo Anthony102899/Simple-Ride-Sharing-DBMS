@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */package pkg3170proj;
+ */
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
@@ -40,7 +40,12 @@ public class Driver {
         System.out.println("4. Go back");
         //Scanner s = new Scanner(System.in);
         System.out.println("Please enter [1-4]");
-        String do_thing = scn.nextLine();
+        String do_thing;
+        try{
+            do_thing = scn.nextLine();
+        }catch(NoSuchElementException ex){
+            do_thing = "4";
+        }
         if ((Integer.parseInt(do_thing) < 1) || (Integer.parseInt(do_thing) > 4))
         {
             System.out.println("Invalid input, please try again.");

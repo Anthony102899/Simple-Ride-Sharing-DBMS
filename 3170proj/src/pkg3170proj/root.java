@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pkg3170proj;
+
 
 import java.util.*;
 import java.sql.*;
@@ -23,10 +23,13 @@ public class root {
         int root;
         try{
             root = Integer.parseInt(s.nextLine());
+        }catch(NoSuchElementException ex){
+            root = 5;
         }catch(Exception e){
             root = 0;
             
         }
+        
         return root;
     }
 }

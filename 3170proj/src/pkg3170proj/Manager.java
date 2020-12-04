@@ -1,4 +1,4 @@
-package pkg3170proj;
+
 import java.sql.*;
 import java.util.*;
 /**
@@ -34,7 +34,9 @@ public class Manager {
         int m;
         try{
             m = Integer.parseInt(scn.nextLine());
-        }catch(Exception e){
+        }catch(NoSuchElementException ex){
+            m = 2;
+        } catch(Exception e){
             m = 0;
         }
         return m;

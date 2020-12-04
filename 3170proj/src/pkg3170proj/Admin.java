@@ -1,4 +1,4 @@
-package pkg3170proj;
+
 import java.sql.*;
 import java.util.*;
 import java.lang.*;
@@ -69,9 +69,11 @@ public class Admin {
         int n = 0;
         try{
             n = Integer.parseInt(scanner.nextLine());
+        }catch(NoSuchElementException ex){
+            n = 5;
         }catch(Exception e){
             n = 0;
-            System.out.println(e);
+            System.out.println("[ERROR] Invaid input!");
         }
         return n;
     }

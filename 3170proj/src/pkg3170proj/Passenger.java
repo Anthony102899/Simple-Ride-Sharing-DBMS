@@ -1,4 +1,3 @@
-package pkg3170proj;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,7 +5,7 @@ package pkg3170proj;
  * and open the template in the editor.
  */
 import java.sql.*;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  *
@@ -53,6 +52,8 @@ public class Passenger {
         int m = 0;
         try{
             m = Integer.parseInt(scn.nextLine());
+        }catch(NoSuchElementException ex){
+            m = 3;
         }catch(Exception e){
             m = 0;
         }
@@ -62,31 +63,58 @@ public class Passenger {
      public static void request_a_trip(Connection con, Scanner scanner) throws SQLException{
         
         int ID=0;
+        int flag = 0;
         int num_of_passengers=0;
         String start_location=null;
         String destination=null;
         String model=null;
         int min_driving_years=0;
         String temp_min_driving_years=null;
-        
+        String CheckDest = "";
         System.out.println("Please enter your ID.");
+        Statement stmt_tmp = con.createStatement();
          ID = Integer.parseInt(scanner.nextLine());
          
         // System.out.println("test"+ID);
         
         System.out.println("Please enter the number of passengers.");
          num_of_passengers=Integer.parseInt(scanner.nextLine());
-         
+         while(num_of_passengers > 8 || num_of_passengers < 1){
+             System.out.println("[ERROR] The number of passenger must between 1-8.");
+             System.out.println("Please enter the number of passengers.");
+             num_of_passengers=Integer.parseInt(scanner.nextLine());
+         }
          //System.out.println("test"+num_of_passengers);
-         
-        System.out.println("Please enter the start location."); 
-         start_location=scanner.nextLine();
+         while(flag == 0){
+            System.out.println("Please enter the start location."); 
+            start_location=scanner.nextLine();
+           // System.out.println(start_location);
+            CheckDest = "SELECT * FROM taxi_stop t WHERE t.name = " + "'" + start_location + "';";
+             try{
+                ResultSet rs_sl = stmt_tmp.executeQuery(CheckDest);
+                if(rs_sl.next() == false){
+                    flag = 0;
+                    System.out.println("[ERROR] No such taxi stop.");
+                }else{
+                    flag = 1;
+                }
+            }catch(Exception e){
+                System.out.println("[ERROR]");
+                flag = 0;
+            }
+         }
          
          //System.out.println("test"+start_location);
          
         System.out.println("Please enter the destination.");
          destination=scanner.nextLine();
-         
+         System.out.println(destination);
+         while(destination.equals(start_location)){
+             System.out.println("[ERROR] The destination must be different from start location!");
+             System.out.println("Please enter the destination.");
+             destination=scanner.nextLine();
+            // System.out.println(destination);
+         }
          //System.out.println("test"+destination);
          
         System.out.println("Please enter the model.(Press enter to skip)"); 
